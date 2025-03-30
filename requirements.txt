@@ -4,3 +4,4 @@ pandas
 plotly
 google.genai
 numpy
+openpyxl
