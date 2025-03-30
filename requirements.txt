@@ -2,5 +2,5 @@ bcrypt
 streamlit
 pandas
 plotly
-google
+google.genai
 numpy
