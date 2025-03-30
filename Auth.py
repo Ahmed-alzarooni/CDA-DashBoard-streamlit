@@ -1,5 +1,5 @@
 import bcrypt
-from Database.Database import check_user_exists, insert_user, get_user
+from Database import check_user_exists, insert_user, get_user
 
 # Function to sign up a new user
 def sign_up(username, password):
