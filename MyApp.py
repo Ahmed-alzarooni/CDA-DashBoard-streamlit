@@ -207,7 +207,7 @@ if st.session_state.authenticated:
     st.sidebar.title("Customize Graph")
 
     # Load and prepare dataset
-    file_path = 'cleaned_dataset.xlsx'
+    file_path = 'Dataset/cleaned_dataset.xlsx'
     data_df = pd.read_excel(file_path)
     cleaned_data_df = data_df.dropna(subset=['Series Name'])
     countries = cleaned_data_df['Country Name'].unique()
@@ -289,7 +289,7 @@ if st.session_state.authenticated:
     user_question = st.text_area("Ask a question about the graph:")
     if user_question:
         # Construct the context for the model based on graph data
-                system_prompt = f"""
+        system_prompt = f"""
 You are an advanced economic data assistant. Your job is to analyze and provide insights on the following economic indicator: {indicator} for {country} from {start_year} to {end_year}.
 
 Response Style:
