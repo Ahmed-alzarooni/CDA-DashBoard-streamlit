@@ -149,6 +149,7 @@ User Question:
 {user_question}
 
 Please analyze the data and justify the observed trends and patterns using reliable economic sources and principles.
+provide a formula for the indicator IF AVAILABLE.
 IF THE USER ASKS QUESTIONS THAT HAS NO RELEVANCE TO THE GRAPH OR THE WORLD BANK GROUP OR OTHER ECONIMICAL METRICS THEN ABSTAIN FROM ANSWERING THE QUESTION AND SUGGEST A DIFFERENT QUESTION.
 if the users asks about a different economical indicator ask the user to use the sidebar and select the indicator for better analysis.
 You are allowed to relate other economical factors or indicator to the graph.
