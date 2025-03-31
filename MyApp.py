@@ -75,9 +75,12 @@ if st.session_state.authenticated:
     file_path = 'Dataset/cleaned_dataset.xlsx'
     data_df = pd.read_excel(file_path)
     cleaned_data_df = data_df.dropna(subset=['Series Name'])
-    countries = cleaned_data_df['Country Name'].unique()
-    indicators = cleaned_data_df['Series Name'].unique()
-
+    indicator_data = cleaned_data_df[
+        (cleaned_data_df['Country Name'] == country) &
+        (cleaned_data_df['Series Name'] == indicator)
+        ]
+    if not indicator_data.empty:
+        indicator_data = indicator_data.iloc[0]
     country = st.sidebar.selectbox("Select Country", countries)
     indicator = st.sidebar.selectbox("Select Indicator", indicators)
     start_year, end_year = st.sidebar.slider("Select Year Range", 2014, 2023, (2014, 2023))
