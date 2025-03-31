@@ -81,16 +81,17 @@ if st.session_state.authenticated:
     country = st.sidebar.selectbox("Select Country", countries)
     indicator = st.sidebar.selectbox("Select Indicator", indicators)
     start_year, end_year = st.sidebar.slider("Select Year Range", 2014, 2023, (2014, 2023))
-    years = [str(year) for year in range(start_year, end_year + 1)]
-    year_columns = [col for col in data_df.columns if col.split()[0].isdigit()]
+    # Define selected years based on the slider range
+    selected_years = [str(year) for year in range(start_year, end_year + 1)]
+    # Filter the DataFrame columns to include only the years that were selected
+    year_columns = [col for col in data_df.columns if col in selected_years]
 
-    # Filter data based on selection
-    country_data = cleaned_data_df[cleaned_data_df['Country Name'] == country]
-    indicator_data = country_data[country_data['Series Name'] == indicator]
     indicator_values = indicator_data[year_columns].values.flatten()
     indicator_values = pd.to_numeric(indicator_values, errors='coerce')
     valid_data_mask = ~np.isnan(indicator_values)
-    valid_years = np.array(years)[:len(indicator_values)][valid_data_mask]
+
+    # Use the filtered year_columns as the x-axis labels
+    valid_years = np.array(year_columns)[valid_data_mask]
     valid_indicator_values = indicator_values[valid_data_mask]
 
     # Create and display the Plotly graph
