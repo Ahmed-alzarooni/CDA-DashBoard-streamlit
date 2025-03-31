@@ -81,10 +81,13 @@ if st.session_state.authenticated:
     country = st.sidebar.selectbox("Select Country", countries)
     indicator = st.sidebar.selectbox("Select Indicator", indicators)
     start_year, end_year = st.sidebar.slider("Select Year Range", 2014, 2023, (2014, 2023))
+    
     # Define selected years based on the slider range
     selected_years = [str(year) for year in range(start_year, end_year + 1)]
+    
     # Filter the DataFrame columns to include only the years that were selected
     year_columns = [col for col in data_df.columns if col in selected_years]
+    indicator_data = indicator_data.iloc[0]
 
     indicator_values = indicator_data[year_columns].values.flatten()
     indicator_values = pd.to_numeric(indicator_values, errors='coerce')
