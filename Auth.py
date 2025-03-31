@@ -1,5 +1,18 @@
 import bcrypt
-from Database import check_user_exists, insert_user, get_user
+import re
+from Database.Database import check_user_exists, insert_user, get_user
+
+def is_valid_password(password):
+    """
+    Validates that the password meets the following criteria:
+    - At least 8 characters
+    - Contains at least one uppercase letter
+    - Contains at least one lowercase letter
+    - Contains at least one number
+    - Contains at least one special character
+    """
+    pattern = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$'
+    return re.match(pattern, password) is not None
 
 # Function to sign up a new user
 def sign_up(username, password):
@@ -7,18 +20,23 @@ def sign_up(username, password):
     if check_user_exists(username):
         return "Username already exists! Please choose a different username."
     
-    # Hash the password using bcrypt
+    # Validate password security
+    if not is_valid_password(password):
+        return ("Password must be at least 8 characters long and include at least one uppercase letter, "
+                "one lowercase letter, one number, and one special character.")
+
+    # Check for empty password (this check is optional now as the regex covers length, but kept for clarity)
     if not password:
         return "Password cannot be empty."
     
     try:
-        # Debugging: Check if password is empty
-        print(f"Signing up user: {username}, with password: {password}")
-
+        # Debug: Print the user details
+        print(f"Signing up user: {username}")
+        
         hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
         
-        # Debugging: Print the hashed password to check its value
-        print(f"Hashed Password (from bcrypt): {hashed_password}")
+        # Debug: Print the hashed password (for development only; remove in production)
+        print(f"Hashed Password: {hashed_password}")
         
         # Insert the new user into the database
         insert_user(username, hashed_password)
@@ -32,12 +50,12 @@ def login(username, password):
     user = get_user(username)
     
     if user:
-        # Debugging: Print out the user retrieved from the database
+        # Debug: Print the user retrieved from the database
         print(f"User retrieved: {user}")
         
         stored_password = user[1]  # Assuming password is the second column in the table
         
-        # Debugging: Check stored password value
+        # Debug: Print stored password value
         print(f"Stored Password (from DB): {stored_password}")
         
         # Check the password with bcrypt
