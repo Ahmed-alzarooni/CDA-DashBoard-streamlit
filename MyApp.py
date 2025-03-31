@@ -88,7 +88,10 @@ if st.session_state.authenticated:
     # Filter the DataFrame columns to include only the years that were selected
     year_columns = [col for col in data_df.columns if col in selected_years]
     indicator_data = indicator_data.iloc[0]
-
+    indicator_data = cleaned_data_df[
+        (cleaned_data_df['Country Name'] == country) &
+        (cleaned_data_df['Series Name'] == indicator)
+        ]
     indicator_values = indicator_data[year_columns].values.flatten()
     indicator_values = pd.to_numeric(indicator_values, errors='coerce')
     valid_data_mask = ~np.isnan(indicator_values)
