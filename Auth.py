@@ -1,6 +1,6 @@
 import bcrypt
 import re
-from Database.Database import check_user_exists, insert_user, get_user
+from Database import check_user_exists, insert_user, get_user
 
 def is_valid_password(password):
     """
