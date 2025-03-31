@@ -80,8 +80,7 @@ if st.session_state.authenticated:
 
     country = st.sidebar.selectbox("Select Country", countries)
     indicator = st.sidebar.selectbox("Select Indicator", indicators)
-    start_year = st.sidebar.slider("Start Year", 2014, 2023, 2014)
-    end_year = st.sidebar.slider("End Year", 2014, 2023, 2023)
+    start_year, end_year = st.sidebar.slider("Select Year Range", 2014, 2023, (2014, 2023))
     years = [str(year) for year in range(start_year, end_year + 1)]
     year_columns = [col for col in data_df.columns if col.split()[0].isdigit()]
 
