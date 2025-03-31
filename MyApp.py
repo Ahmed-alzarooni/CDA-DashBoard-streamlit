@@ -207,7 +207,7 @@ if st.session_state.authenticated:
     st.sidebar.title("Customize Graph")
 
     # Load and prepare dataset
-    file_path = '/Users/3bdulla/Desktop/University/DS 440W/App/Dataset/cleaned_dataset.xlsx'
+    file_path = 'cleaned_dataset.xlsx'
     data_df = pd.read_excel(file_path)
     cleaned_data_df = data_df.dropna(subset=['Series Name'])
     countries = cleaned_data_df['Country Name'].unique()
