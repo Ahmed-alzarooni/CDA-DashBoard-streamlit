@@ -149,6 +149,7 @@ User Question:
 {user_question}
 
 Please analyze the data and justify the observed trends and patterns using reliable economic sources and principles.
+IF THE USER ASKS QUESTIONS THAT HAS NO RELEVANCE TO THE GRAPH OR THE WORLD BANK GROUP OR OTHER ECONIMICAL METRICS THEN ABSTAIN FROM ANSWERING THE QUESTION AND SUGGEST A DIFFERENT QUESTION.
 """
 
         # Generate content from the AI model
