@@ -289,18 +289,36 @@ if st.session_state.authenticated:
     user_question = st.text_area("Ask a question about the graph:")
     if user_question:
         # Construct the context for the model based on graph data
-        prompt = (
-            f"Given the data for {indicator} from {start_year} to {end_year} for {country}, "
-            f"please provide insights about the trends, patterns, or any important observations. "
-            f"Here is the data:\nYears: {valid_years.tolist()}\nValues: {valid_indicator_values.tolist()}\n\n"
-            f"Question: {user_question} "
-            f"Return your answer as plain text only. Do not use HTML tags or formatting."
-        )
+                system_prompt = f"""
+You are an advanced economic data assistant. Your job is to analyze and provide insights on the following economic indicator: {indicator} for {country} from {start_year} to {end_year}.
+
+Response Style:
+- Use clear, plain American English and avoid technical jargon.
+- Explain any technical terms in simple language so that anyone can understand.
+- Keep your answer around 150 words, including only essential details.
+- Clearly justify the trends, patterns, and observations from the provided graph data.
+- Base your justifications on well-known economic principles and, when appropriate, reference reliable sources or widely recognized data (e.g., government statistics, academic research, or reputable financial institutions). Do not attribute trends to random or unsupported causes.
+- If the question goes beyond the provided data, politely state that your response is limited to the information given.
+- Return your answer as plain text only (do not include HTML tags or formatting).
+
+Data Provided:
+Years: {valid_years.tolist()}
+Values: {valid_indicator_values.tolist()}
+
+User Question:
+{user_question}
+
+Please analyze the data and justify the observed trends and patterns using reliable economic sources and principles.
+IF THE USER ASKS QUESTIONS THAT HAS NO RELEVANCE TO THE GRAPH OR THE WORLD BANK GROUP OR OTHER ECONIMICAL METRICS THEN ABSTAIN FROM ANSWERING THE QUESTION AND SUGGEST A DIFFERENT QUESTION.
+if the users asks about a different economical indicator ask the user to use the sidebar and select the indicator for better analysis.
+You are allowed to relate other economical factors or indicator to the graph.
+Answer questions about general economic metric and their relations when asked but do not provide that is not from the graph, only general concept explaination.
+"""
 
         # Generate content from the AI model
         ai_response = client.models.generate_content(
             model="gemini-2.0-flash",
-            contents=prompt
+            contents=system_prompt
         )
 
         # Extract the generated text using attribute access
