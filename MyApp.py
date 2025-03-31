@@ -95,7 +95,7 @@ st.markdown(
     """
     <div class="header-banner" style="color: black;">
         <h1 style="font-size: 3em; margin: 0; text-align: center; color: black;">
-            CDA.I<img src="https://openclipart.org/image/800px/601" alt="Earth" style="height: 0.85em; vertical-align: middle; margin-top: -0.1em;"> 
+            CDA<img src="https://openclipart.org/image/800px/601" alt="Earth" style="height: 0.85em; vertical-align: middle; margin-top: -0.1em;"> 
         </h1>
         <p style="font-size: 1.5em; margin: 0; text-align: center; color: black;">Insights for Global Development</p>
     </div>
