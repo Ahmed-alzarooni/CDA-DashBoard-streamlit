@@ -206,21 +206,34 @@ if st.session_state.authenticated:
 
     st.sidebar.title("Customize Graph")
 
-    # Load and prepare dataset
-    file_path = 'Dataset/cleaned_dataset.xlsx'
+    # Load and prepare dataset from the modified file
+    file_path = 'Dataset/modified_cleaned_dataset.xlsx'
     data_df = pd.read_excel(file_path)
-    cleaned_data_df = data_df.dropna(subset=['Series Name'])
+
+    # Drop rows without an indicator name
+    cleaned_data_df = data_df.dropna(subset=['Indicator Name'])
     countries = cleaned_data_df['Country Name'].unique()
-    indicators = cleaned_data_df['Series Name'].unique()
+    indicators = cleaned_data_df['Indicator Name'].unique()
 
     # Allow users to select multiple countries
     selected_countries = st.sidebar.multiselect("Select Country(s)", options=countries, default=[countries[0]])
     indicator = st.sidebar.selectbox("Select Indicator", options=indicators)
-    start_year = st.sidebar.slider("Start Year", 2014, 2023, 2014)
-    end_year = st.sidebar.slider("End Year", 2014, 2023, 2023)
-    years = [str(year) for year in range(start_year, end_year + 1)]
-    # Assume the dataset has year columns like "2014", "2015", etc.
-    year_columns = [col for col in data_df.columns if col.split()[0].isdigit()]
+    year_range = st.sidebar.slider("Select Year Range", 2014, 2023, (2014, 2023))
+    start_year, end_year = year_range
+    # --- Process Year Columns ---
+    # We'll extract those columns that are digits.
+    available_year_columns = [str(col) for col in data_df.columns if str(col).isdigit()]
+    # Filter based on slider range
+    selected_year_columns = [col for col in available_year_columns if start_year <= int(col) <= end_year]
+    selected_year_columns.sort(key=lambda x: int(x))
+    # Use these as x-axis labels
+    years = selected_year_columns
+
+    
+
+    if not selected_year_columns:
+        st.error("No year columns found in the dataset for the selected range!")
+        st.stop()
 
     # Create the Plotly graph
     fig = go.Figure()
@@ -228,32 +241,35 @@ if st.session_state.authenticated:
     for country in selected_countries:
         # Filter data for the current country and indicator
         country_data = cleaned_data_df[cleaned_data_df['Country Name'] == country]
-        indicator_data = country_data[country_data['Series Name'] == indicator]
-        indicator_values = indicator_data[year_columns].values.flatten()
+        indicator_data = country_data[country_data['Indicator Name'] == indicator]
+
+        # Extract indicator values using the filtered year columns
+        indicator_values = indicator_data[selected_year_columns].values.flatten()
         indicator_values = pd.to_numeric(indicator_values, errors='coerce')
+
+        # Filter out NaN values so x-axis and y-axis match
         valid_data_mask = ~np.isnan(indicator_values)
-        valid_years = np.array(years)[:len(indicator_values)][valid_data_mask]
+        valid_years = np.array(years)[valid_data_mask]
         valid_indicator_values = indicator_values[valid_data_mask]
 
-        # Add a trace for each selected country (legend label is only the country name)
+        # Add a trace for each selected country (legend shows only the country name)
         fig.add_trace(go.Scatter(
             x=valid_years,
             y=valid_indicator_values,
             mode='lines+markers',
-            name=country,  # only the country name appears in the legend
+            name=country,
             marker=dict(size=8),
             line=dict(width=2)
         ))
 
     # Dynamically adjust the top margin based on the number of selected countries.
-    # Assume that up to 4 legend items fit per row.
     countries_per_row = 4
     num_rows = math.ceil(len(selected_countries) / countries_per_row)
     base_top_margin = 40
     extra_space_per_row = 20
     dynamic_top_margin = base_top_margin + (num_rows * extra_space_per_row)
 
-    # Update the layout of the graph
+    # Update the layout of the graph with a centered title
     fig.update_layout(
         xaxis_title='Year',
         yaxis_title=indicator,
@@ -275,11 +291,12 @@ if st.session_state.authenticated:
     st.plotly_chart(fig)
 
     if st.checkbox("Show Raw Data"):
-        first_country = selected_countries[0] if selected_countries else None
-        if first_country:
-            country_data = cleaned_data_df[cleaned_data_df['Country Name'] == first_country]
-            indicator_data = country_data[country_data['Series Name'] == indicator]
-            st.write(indicator_data[['Country Name', 'Series Name'] + year_columns])
+        # Show raw data for all selected countries for the chosen indicator
+        raw_data = cleaned_data_df[
+            (cleaned_data_df['Country Name'].isin(selected_countries)) &
+            (cleaned_data_df['Indicator Name'] == indicator)
+        ]
+        st.write(raw_data[['Country Name', 'Indicator Name'] + selected_year_columns])
 
     # AI Insights Section
 
