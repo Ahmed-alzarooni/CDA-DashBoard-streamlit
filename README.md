@@ -1,8 +1,7 @@
 # CDA-DashBoard-streamlit
 
-
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://gdp-dashboard-template.streamlit.app/)
-
+## Streamlit Deploy
+https://cda-app.streamlit.app/
 ### How to run it on your own machine
 
 1. Install the requirements
