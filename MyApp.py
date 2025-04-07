@@ -319,7 +319,7 @@ Response Style:
 - Return your answer as plain text only (do not include HTML tags or formatting).
 
 Data Provided:
-counties: {selected_countries.tolist()}
+Selected Countries: {', '.join(selected_countries)}
 Years: {valid_years.tolist()}
 Values: {valid_indicator_values.tolist()}
 
