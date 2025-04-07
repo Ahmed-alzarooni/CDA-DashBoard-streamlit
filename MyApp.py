@@ -103,56 +103,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.markdown(
-    """
-    <style>
-    /* Target the container for the text input */
-    div[data-baseweb="input"] {
-        position: relative;               /* so we can position the arrow absolutely */
-        background-color: #f5f7fa !important;
-        border-radius: 9999px !important; /* pill shape */
-        border: none !important;
-        padding: 0 !important;
-        box-shadow: none !important;      /* remove any default shadow */
-    }
 
-    /* Remove extra backgrounds from the container's inner divs */
-    div[data-baseweb="input"] > div {
-        background: none !important;
-    }
-
-    /* Style the actual input element */
-    div[data-baseweb="input"] input {
-        background: none !important;
-        border: none !important;
-        border-radius: 9999px !important;
-        padding-left: 1rem !important;    /* space on the left for text */
-        padding-right: 2.5rem !important; /* space on the right for the arrow */
-        font-size: 14px !important;
-        color: #333 !important;
-        height: 1.5rem;                   /* adjust as needed */
-    }
-
-    /* Placeholder text color */
-    div[data-baseweb="input"] input::placeholder {
-        color: #999 !important;
-    }
-
-    /* Decorative arrow on the right side */
-    div[data-baseweb="input"]::after {
-        content: "➤";
-        position: absolute;
-        right: 1rem;                /* position the arrow */
-        top: 50%;
-        transform: translateY(-50%);
-        color: #999;
-        pointer-events: none;       /* arrow is not clickable */
-        font-size: 1rem;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 
 # Create the database and set up session state defaults
