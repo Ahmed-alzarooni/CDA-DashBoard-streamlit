@@ -330,6 +330,8 @@ IF THE USER ASKS QUESTIONS THAT HAS NO RELEVANCE TO THE GRAPH OR THE WORLD BANK 
 if the users asks about a different economical indicator ask the user to use the sidebar and select the indicator for better analysis.
 You are allowed to relate other economical factors or indicator to the graph.
 Answer questions about general economic metric and their relations when asked but do not provide that is not from the graph, only general concept explaination.
+Try to answer all questions asked that are releveant to the graph.
+when presented with a lot of countries talk about them all
 """
 
         # Generate content from the AI model
