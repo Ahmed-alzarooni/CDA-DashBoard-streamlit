@@ -472,7 +472,7 @@ if st.session_state.authenticated:
             Values: {valid_indicator_values.tolist()}
 
             User Question:
-            {user_question}
+            {new_message}
 
             Please analyze the data and justify the observed trends and patterns using reliable economic sources and principles.
             """
