@@ -1,15 +1,21 @@
-FROM python:3.11-slim
-
+# 1) Build stage (installs deps)
+FROM python:3.11-slim AS build
 WORKDIR /app
-
-# 1) Install your Python deps into this image
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-# 2) Copy your app code
 COPY . .
 
-# 3) Expose & start
+# 2) Runtime stage (just code + deps)
+FROM python:3.11-slim
+WORKDIR /app
+
+# Copy installed packages from build → runtime
+COPY --from=build /usr/local/lib/python3.11/site-packages \
+     /usr/local/lib/python3.11/site-packages
+
+# Copy your application code
+COPY --from=build /app /app
+
 EXPOSE 8080
 CMD ["python3","-m","streamlit","run","MyApp.py",
      "--server.port=8080","--server.address=0.0.0.0"]
