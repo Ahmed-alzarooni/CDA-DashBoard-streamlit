@@ -1,23 +1,26 @@
-# Use the custom AWS ECR image as the base for the pre-build stage
-FROM 495519747063.dkr.ecr.us-east-2.amazonaws.com/awsfusionruntime-python311-build:uuid-python311-20250327-003703-74 AS pre-build-stage
+# 1. Base image with Python 3.11
+FROM 495519747063.dkr.ecr.us-east-2.amazonaws.com/awsfusionruntime-python311-build:uuid-python311-20250327-003703-74 AS base
 
-# Update package lists and install pip if it's not already available.
-RUN apt-get update && apt-get install -y python3-pip
+# 2. Install pip (if missing) and clean up apt caches
+RUN apt-get update \
+ && apt-get install -y python3-pip \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
 
-# Copy your application code into the image
-COPY . /app
-
-# Set the working directory
 WORKDIR /app
 
-# Define the build stage based on the pre-build stage
-FROM pre-build-stage AS build-stage
+# 3. Copy only requirements first (to leverage Docker cache)
+COPY requirements.txt .
 
-# Ensure you're in the correct directory
-WORKDIR /app
+# 4. Install Python dependencies (must include streamlit)
+RUN python3 -m pip install --upgrade pip \
+ && python3 -m pip install --no-cache-dir -r requirements.txt
 
-# Upgrade pip and install dependencies from requirements.txt using Python's pip module
-RUN python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt
+# 5. Copy the rest of your app code
+COPY . .
 
-# Specify the default command (modify "app.py" to your application’s entry point)
-CMD ["python3", "MyApp.py"]
+# 6. Expose the port Streamlit will run on
+EXPOSE 8080
+
+# 7. Start the app with Streamlit, binding to 0.0.0.0:8080
+CMD ["python3", "-m", "streamlit", "run", "MyApp.py", "--server.port", "8080", "--server.address", "0.0.0.0"]
