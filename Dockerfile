@@ -13,9 +13,8 @@ WORKDIR /app
 COPY --from=build /usr/local/lib/python3.11/site-packages \
      /usr/local/lib/python3.11/site-packages
 
-# Copy your application code
-COPY --from=build /app /app
-
+# Expose Streamlit’s port
 EXPOSE 8080
-CMD ["python3","-m","streamlit","run","MyApp.py",
-     "--server.port=8080","--server.address=0.0.0.0"]
+
+# Single‑line CMD so Docker parses it correctly
+CMD ["python3", "-m", "streamlit", "run", "MyApp.py", "--server.port=8080", "--server.address=0.0.0.0"]
