@@ -13,7 +13,7 @@ https://cda-app.streamlit.app/
 2. Run the app
 
    ```
-   $ streamlit run streamlit_app.py
+   $ streamlit run MyApp.py
    ```
 
 App/
