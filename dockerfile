@@ -1,21 +1,23 @@
-# Use a lightweight Python image
-FROM python:3.9-slim
+# Use the custom AWS ECR image as the base for the pre-build stage
+FROM 495519747063.dkr.ecr.us-east-2.amazonaws.com/awsfusionruntime-python311-build:uuid-python311-20250327-003703-74 AS pre-build-stage
 
-# Set the working directory inside the container
+# Update package lists and install pip if it's not already available.
+RUN apt-get update && apt-get install -y python3-pip
+
+# Copy your application code into the image
+COPY . /app
+
+# Set the working directory
 WORKDIR /app
 
-# Copy the requirements file and install dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Define the build stage based on the pre-build stage
+FROM pre-build-stage AS build-stage
 
-# Copy the rest of your app's source code
-COPY . .
+# Ensure you're in the correct directory
+WORKDIR /app
 
-# Set environment variable for the port
-ENV PORT 8080
+# Upgrade pip and install dependencies from requirements.txt using Python's pip module
+RUN python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt
 
-# Expose port 8080 for the container
-EXPOSE 8080
-
-# Run the Streamlit app with proper settings
-CMD ["streamlit", "run", "MyApp.py", "--server.enableCORS", "false", "--server.port", "8080"]
+# Specify the default command (modify "app.py" to your application’s entry point)
+CMD ["python3", "MyApp.py"]
