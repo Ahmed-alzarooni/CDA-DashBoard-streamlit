@@ -90,12 +90,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Header Banner with inline Earth image replacing the "O" in "CDA.IO"
+# Header Banner with inline Earth image
 st.markdown(
     """
     <div class="header-banner" style="color: black;">
         <h1 style="font-size: 3em; margin: 0; text-align: center; color: black;">
-            CDA<img src="https://openclipart.org/image/800px/601" alt="Earth" style="height: 0.85em; vertical-align: middle; margin-top: -0.1em;"> 
+            CDA<img src="https://cdn.pixabay.com/photo/2024/02/03/02/16/earth-8549451_1280.png" alt="Earth" style="height: 0.85em; vertical-align: middle; margin-top: -0.1em;"> 
         </h1>
         <p style="font-size: 1.5em; margin: 0; text-align: center; color: black;">Insights for Global Development</p>
     </div>
