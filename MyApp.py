@@ -5,7 +5,6 @@ import pandas as pd
 import math
 import plotly.graph_objects as go
 import plotly.express as px
-import matplotlib.pyplot as plt
 import numpy as np
 from google import genai
 
