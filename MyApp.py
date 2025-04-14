@@ -1,6 +1,6 @@
 import streamlit as st
-from Auth.Auth import sign_up, login
-from Database.Database import create_db
+from Auth import sign_up, login
+from Database import create_db
 import pandas as pd
 import math
 import plotly.graph_objects as go
