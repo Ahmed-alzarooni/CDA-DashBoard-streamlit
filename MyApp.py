@@ -237,12 +237,14 @@ if st.session_state.authenticated:
         st.error("No year columns found in the dataset for the selected range!")
         st.stop()
 
+    # Dictionary to store data for AI Insights
+    country_data_dict = {}
     # Create the Plotly graph
     fig = go.Figure()
 
     # Define a default color palette and assign each country a color
-    default_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", 
-                      "#9467bd", "#8c564b", "#e377c2", "#7f7f7f", 
+    default_colors = ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728",
+                      "#9467bd", "#8c564b", "#e377c2", "#7f7f7f",
                       "#bcbd22", "#17becf"]
     trace_colors = {}
     for idx, country in enumerate(selected_countries):
@@ -255,6 +257,11 @@ if st.session_state.authenticated:
         valid_data_mask = ~np.isnan(indicator_values)
         valid_years = np.array(years)[valid_data_mask]
         valid_indicator_values = indicator_values[valid_data_mask]
+        # Store data for AI Insights
+        country_data_dict[country] = {
+            'years': valid_years.tolist(),
+            'values': valid_indicator_values.tolist()
+        }
         fig.add_trace(go.Scatter(
             x=valid_years,
             y=valid_indicator_values,
@@ -395,7 +402,7 @@ if st.session_state.authenticated:
             color_continuous_scale=px.colors.sequential.Plasma,
             range_color=(0, max_val),
             title=f"World Map of {indicator} in {selected_year}"
-        )   
+        )
             
         # Render the Plotly map in the Streamlit app
         st.plotly_chart(fig)
@@ -502,7 +509,7 @@ if st.session_state.authenticated:
         
             # Construct the system prompt based on the current graph data.
             system_prompt = f"""
-            You are an advanced economic data assistant. Your job is to analyze and provide insights on the following economic indicator: {indicator} for {country} from {start_year} to {end_year}.
+            You are an advanced economic data assistant. Your job is to analyze and provide insights on the following economic indicator: {indicator} for the selected countries from {start_year} to {end_year}.
 
             Response Style:
             - Use clear, plain American English and avoid technical jargon.
@@ -522,8 +529,7 @@ if st.session_state.authenticated:
 
             Data Provided:
             Selected Countries: {', '.join(selected_countries)}
-            Years: {valid_years.tolist()}
-            Values: {valid_indicator_values.tolist()}
+            {''.join([f"- {c}: Years: {country_data_dict[c]['years']}; Values: {country_data_dict[c]['values']}\n" for c in country_data_dict])}
 
             User Question:
             {new_message}
