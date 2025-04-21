@@ -512,6 +512,7 @@ if st.session_state.authenticated:
             You are an advanced economic data assistant. Your job is to analyze and provide insights on the following economic indicator: {indicator} for the selected countries from {start_year} to {end_year}.
 
             Response Style:
+            - Always include a very quick summary at the top of the response
             - Use clear, plain American English and avoid technical jargon.
             - Explain any technical terms in simple language so that anyone can understand.
             - Keep your answer around 180 words.
