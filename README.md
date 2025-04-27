@@ -16,6 +16,7 @@ https://cda-app.streamlit.app/
    $ streamlit run MyApp.py
    ```
 3. Project Directory Structure
+   
    When using this directory structure, please change the head section of the `MyApp.py` where we import libraries from
    ```
    from Auth import sign_up, login
