@@ -16,6 +16,15 @@ https://cda-app.streamlit.app/
    $ streamlit run MyApp.py
    ```
 3. Project Directory Structure
+
+   ```
+   App/
+   ├── MyApp.py              ← Main app launcher
+   ├── Auth/
+   │   └── Auth.py           ← Handles login & sign-up logic
+   ├── Database/
+   │   └── Database.py       ← SQLite DB functions
+   ```
    
    When using this directory structure, please change the head section of the `MyApp.py` where we import libraries from
    ```
@@ -27,14 +36,5 @@ https://cda-app.streamlit.app/
    from Auth.Auth import sign_up, login
    from Database.Database import create_db
    ```
-
-```
-App/
-├── MyApp.py              ← Main app launcher
-├── Auth/
-│   └── Auth.py           ← Handles login & sign-up logic
-├── Database/
-│   └── Database.py       ← SQLite DB functions
-```
 
 Note: Please be sure to run the App in light mode. You can switch between light mode and dark mode from the 3 dots in the top right corner after you run the app. If your system is on dark mode, then the app will automatically run on dark mode.
