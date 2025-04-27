@@ -1,7 +1,7 @@
 # CDA-DashBoard-streamlit
 
-## Streamlit Deploy
-https://cda-app.streamlit.app/
+## AWS Deploy
+https://www.cda-insight.com/
 ### How to run it on your own machine
 
 1. Install the requirements
