@@ -15,13 +15,7 @@ https://cda-app.streamlit.app/
    ```
    $ streamlit run MyApp.py
    ```
-
-App/
-├── MyApp.py              ← Main app launcher
-├── Auth/
-│   └── Auth.py           ← Handles login & sign-up logic
-├── Database/
-│   └── Database.py       ← SQLite DB functions
+3. Project Directory Structure
 
 ```
 App/
@@ -31,3 +25,5 @@ App/
 ├── Database/
 │   └── Database.py       ← SQLite DB functions
 ```
+
+Note: Please be sure to run the App in light mode. You can switch between light mode and dark mode from the 3 dots in the top right corner.
