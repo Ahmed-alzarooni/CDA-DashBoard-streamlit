@@ -26,7 +26,7 @@ https://www.cda-insight.com/
        └── Database.py       ← SQLite DB functions
    ```
    
-   When using this directory structure, please change the head section of the `MyApp.py` where we import libraries from
+   When using this directory structure, please modify the head section of the `MyApp.py` where we import libraries from
    ```
    from Auth import sign_up, login
    from Database import create_db
